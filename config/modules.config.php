@@ -23,8 +23,6 @@ return [
     'Laminas\Router',
     'Laminas\Validator',
     'Laminas\Diactoros',
-    //'RdnCsv',
-    
-    'Capacitacion',
+    'RdnCsv',
     'Application',
 ];
