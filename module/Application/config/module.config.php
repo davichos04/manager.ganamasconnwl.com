@@ -70,6 +70,16 @@ return [
                     ],
                 ],
             ],
+            'capacitaciones' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/capacitaciones[/:action[/:id]]',
+                    'defaults' => [
+                        'controller' => Controller\CapacitacionesController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'reports' => [
                 'type' => Segment::class,
                 'options' => [
