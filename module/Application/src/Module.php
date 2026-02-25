@@ -150,6 +150,11 @@ class Module implements ConfigProviderInterface
                     $dbAdapter = $container->get(AdapterInterface::class);
                     return new TableGateway('reporte_noticias', $dbAdapter, null);
                 },
+                Model\CapacitacionesTable::class => function ($container) {
+                    return new Model\CapacitacionesTable(
+                        $container->get(AdapterInterface::class)
+                    );
+                },
             ],
         ];
     }
@@ -211,6 +216,11 @@ class Module implements ConfigProviderInterface
                     return new Controller\LoginController(
                         $container->get(Model\UsersTable::class),
                         $container->get(Adapter::class)
+                    );
+                },
+                Controller\CapacitacionesController::class => function ($container) {
+                    return new Controller\CapacitacionesController(
+                        $container->get(Model\CapacitacionesTable::class)
                     );
                 },
                 Controller\LogoutController::class => function ($container) {

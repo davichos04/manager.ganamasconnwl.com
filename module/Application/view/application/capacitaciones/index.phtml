@@ -1,0 +1,152 @@
+<div class="row mb-3">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0 text-gray-800">Capacitaciones Builder</h1>
+        <button class="btn btn-primary" id="btn-new-cap">Nueva capacitación</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Estructura</h6>
+                <button class="btn btn-sm btn-outline-primary" id="btn-reload-tree">Recargar</button>
+            </div>
+            <div class="card-body" id="builder-tree"></div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">1) Capacitación</h6></div>
+            <div class="card-body">
+                <form id="cap-form" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="cap-id">
+                    <div class="form-row">
+                        <div class="form-group col-md-6"><label>Título</label><input type="text" class="form-control" name="title" required></div>
+                        <div class="form-group col-md-6"><label>Alias</label><input type="text" class="form-control" name="alias"></div>
+                    </div>
+                    <div class="form-group"><label>Descripción</label><textarea class="form-control" name="description" rows="2"></textarea></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Tipo de media</label>
+                            <select class="form-control" name="media_type" id="cap-media-type">
+                                <option value="video">Video</option>
+                                <option value="image">Imagen</option>
+                                <option value="pdf">PDF</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-8" id="media-url-wrap"><label>URL video</label><input type="text" class="form-control" name="media_url"></div>
+                    </div>
+
+                    <div class="d-none" id="media-file-wrap">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Archivo media (drag & drop)</label>
+                                <div class="drop-zone" data-input="media-file-input">
+                                    <span>Suelta archivo aquí o haz click</span>
+                                    <input type="file" class="d-none" id="media-file-input" name="media_file" accept="image/*,application/pdf">
+                                </div>
+                                <small class="form-text text-muted" id="media-file-name"></small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Thumbnail (drag & drop)</label>
+                                <div class="drop-zone" data-input="thumbnail-file-input">
+                                    <span>Suelta imagen aquí o haz click</span>
+                                    <input type="file" class="d-none" id="thumbnail-file-input" name="thumbnail_file" accept="image/*">
+                                </div>
+                                <img id="thumbnail-preview" src="" style="max-width: 180px; display:none;" class="mt-2 rounded border">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6"><label>Expira en</label><input type="text" class="form-control" name="expires_at" id="cap-expires"></div>
+                        <div class="form-group col-md-6 d-flex align-items-center"><div class="custom-control custom-switch mt-4"><input type="checkbox" class="custom-control-input" id="cap-published" name="published" checked><label class="custom-control-label" for="cap-published">Publicado</label></div></div>
+                    </div>
+                    <button class="btn btn-success" type="submit">Guardar capacitación</button>
+                    <button class="btn btn-outline-danger" type="button" id="btn-delete-cap">Eliminar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">2) Quiz</h6>
+                <button class="btn btn-sm btn-outline-primary" id="btn-new-quiz" type="button">Nuevo quiz</button>
+            </div>
+            <div class="card-body">
+                <form id="quiz-form">
+                    <input type="hidden" name="id" id="quiz-id"><input type="hidden" name="capacitacion_id" id="quiz-cap-id">
+                    <div class="alert alert-info py-2" id="quiz-hint">Selecciona una capacitación para crear quiz.</div>
+                    <div class="form-group"><label>Título</label><input type="text" class="form-control" name="title" required></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3"><label>Intentos</label><input type="number" class="form-control" name="max_attempts"></div>
+                        <div class="form-group col-md-3"><label>Pass score</label><input type="number" class="form-control" name="pass_score"></div>
+                        <div class="form-group col-md-3"><label>Recompensa</label><select class="form-control" name="reward_mode" id="quiz-reward-mode"><option value="none">Ninguna</option><option value="product">Producto</option><option value="points">Puntos</option></select></div>
+                        <div class="form-group col-md-3 d-flex align-items-center"><div class="custom-control custom-switch mt-4"><input type="checkbox" class="custom-control-input" id="quiz-published" name="published" checked><label class="custom-control-label" for="quiz-published">Publicado</label></div></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 d-none" id="reward-product-wrap"><label>Producto</label><select class="form-control" name="reward_product_id" id="reward-product"></select></div>
+                        <div class="form-group col-md-4 d-none" id="reward-points-wrap"><label>Puntos</label><input type="number" class="form-control" name="reward_points"></div>
+                        <div class="form-group col-md-2"><label>Límite</label><input type="number" class="form-control" name="reward_limit" value="0"></div>
+                        <div class="form-group col-md-2"><label>Entregados</label><input type="number" class="form-control" name="reward_awarded_count" value="0"></div>
+                    </div>
+                    <button class="btn btn-success" type="submit">Guardar quiz</button>
+                    <button class="btn btn-outline-danger" type="button" id="btn-delete-quiz">Eliminar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">3) Pregunta y 4) Respuestas</h6>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary" id="btn-new-question" type="button">Nueva pregunta</button>
+                    <button class="btn btn-sm btn-outline-primary" id="btn-new-answer" type="button">Nueva respuesta</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="question-form" enctype="multipart/form-data" class="mb-3">
+                    <input type="hidden" name="id" id="question-id"><input type="hidden" name="quiz_id" id="question-quiz-id">
+                    <div class="alert alert-info py-2" id="question-hint">Selecciona un quiz para crear pregunta.</div>
+                    <div class="form-group"><label>Pregunta</label><textarea class="form-control" name="question_text" required></textarea></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3"><label>Tipo</label><select class="form-control" name="type"><option value="radio">Radio</option><option value="checkbox">Checkbox</option><option value="text">Texto</option><option value="textarea">Textarea</option><option value="ranking">Ranking</option></select></div>
+                        <div class="form-group col-md-3"><label>Orden</label><input type="number" class="form-control" name="ordering" value="0"></div>
+                        <div class="form-group col-md-4">
+                            <label>Imagen (drag & drop)</label>
+                            <div class="drop-zone" data-input="question-image"><span>Suelta imagen aquí o haz click</span><input type="file" class="d-none" name="image_file" id="question-image" accept="image/*"></div>
+                        </div>
+                        <div class="form-group col-md-2 d-flex align-items-center"><div class="custom-control custom-switch mt-4"><input type="checkbox" class="custom-control-input" id="question-published" name="published" checked><label class="custom-control-label" for="question-published">Publicado</label></div></div>
+                    </div>
+                    <img id="question-image-preview" src="" style="max-width: 180px; display:none;" class="mb-2 rounded border">
+                    <button class="btn btn-success" type="submit">Guardar pregunta</button>
+                    <button class="btn btn-outline-danger" type="button" id="btn-delete-question">Eliminar</button>
+                </form>
+
+                <form id="answer-form">
+                    <input type="hidden" name="id" id="answer-id"><input type="hidden" name="question_id" id="answer-question-id">
+                    <div class="alert alert-info py-2" id="answer-hint">Selecciona una pregunta para crear respuesta.</div>
+                    <div class="form-row">
+                        <div class="form-group col-md-9"><label>Respuesta</label><input type="text" class="form-control" name="answer_text" required></div>
+                        <div class="form-group col-md-3 d-flex align-items-center"><div class="custom-control custom-switch mt-4"><input type="checkbox" class="custom-control-input" id="answer-correct" name="is_correct"><label class="custom-control-label" for="answer-correct">Correcta</label></div></div>
+                    </div>
+                    <button class="btn btn-success" type="submit">Guardar respuesta</button>
+                    <button class="btn btn-outline-danger" type="button" id="btn-delete-answer">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .drop-zone { border: 2px dashed #c8d0db; border-radius: 8px; padding: 14px; text-align: center; cursor: pointer; background:#f8f9fc; }
+    .drop-zone.dragover { border-color: #4e73df; background:#eef2ff; }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="<?= $this->basePath('js/capacitaciones.js?t=' . time()) ?>"></script>
