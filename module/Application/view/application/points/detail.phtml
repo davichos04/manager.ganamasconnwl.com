@@ -1,0 +1,125 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$spanishMonths = array(
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+);
+?>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Estado de cuenta del usuario</h1>
+    <a href="<?= $this->url('points', ['action' => 'index']) ?>"
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-caret-square-left text-white-50"></i> Regresar</a>
+</div>
+<hr>
+<hr>
+<div class="row ">
+    <div class="col-md-6 col-sm-12 offset-md-3 card card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Celular
+                    </th>
+                    <th>
+                        Perfil
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <?= $user->name ?>
+                    </td>
+                    <td>
+                        <?= $user->username ?>
+                    </td>
+
+                    <td>
+                        <?= $user->profile ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered table-content table-striped">
+            <thead>
+                <tr>
+                    <td>Puntos Acumulados</td>
+                    <td>Puntos Canjeados</td>
+                    <td>Puntos Disponibles</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <?php echo number_format($this->userPoints->accumulated) ?>
+                    </td>
+
+                    <td>
+                        <?php echo number_format($this->userPoints->redeemed) ?>
+                    </td>
+
+                    <td>
+                        <?php echo number_format($this->userPoints->available) ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-8 col-sm-12 offset-md-2 card card-body">
+        <h3>Detalle de movimientos</h3>
+        <hr>
+        <table id="table-content" class="table  table-bordered text-center">
+            <thead class="text-center">
+                <tr>
+                    <th>Mes</th>
+                    <th>Concepto</th>
+                    <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody class="overflow-auto ">
+                <?php foreach ($detail as $row): ?>
+                    <tr class="table-<?= $row->points < 0 ? 'danger' : 'success' ?>">
+                        <td>
+                            <?php
+                            $date = DateTime::createFromFormat("Y-m-d H:i:s", $row->created_at);
+                            if ($row->points > 0):
+                                if (isset($spanishMonths[($row->month - 1)])):
+                                    echo $spanishMonths[($row->month - 1)];
+                                else:
+                                    echo $spanishMonths[date('n', $date->getTimestamp()) - 1];
+                                endif;
+                            else:
+                                echo $spanishMonths[date('n', $date->getTimestamp()) - 1];
+                            endif; ?>
+                        </td>
+                        <td>
+                            <?php echo $row->points < 0 ? 'Canje' : $row->concept ?>
+                        </td>
+                        <td>
+                            <?php echo number_format(abs($row->points), 0) ?>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>

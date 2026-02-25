@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0">Estado de cuenta de los usuarios</h1>
+    <!--<a href="<?php //  echo $this->url('points', ['action' => 'add']) ?>"-->
+        <!--class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i-->
+<!--            class="fas fa-download fa-sm text-white-50"></i> Cargar puntos</a>-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr>
+        <hr>
+    </div>
+    <div class="col-12 card card-body">
+        <table id="table-content" class="table table-bordered text-center">
+            <thead class="">
+                <tr>
+                    <th>Celular</th>
+                    <th>Nombre</th>
+                    <th>Perfil</th>
+                    <th>Acumulados</th>
+                    <th>Canjeados</th>
+                    <th>Disponibles</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="overflow-auto">
+                <?php foreach ($data as $row): ?>
+                    <tr>
+                        <td>
+                            <?php echo $row['username'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['name'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['profile'] ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($row['accumulated'], 0) ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($row['redeemed'], 0) ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($row['available'], 0) ?>
+                        </td>
+
+                        <td>
+                            <a href="<?php echo $this->url('points', ['action' => 'detail', 'id' => $row['id']]) ?>">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>

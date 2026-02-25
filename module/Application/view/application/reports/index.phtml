@@ -1,0 +1,109 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Reportes disponibles</h1>
+</div>
+<hr>
+<hr>
+<div class="row">
+    <div class="col-3">
+        <div class="card text-white bg-info shadow mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Reporte de usuarios</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el listado de usuarios y su estado de cuenta general
+                    <br>
+                    <br>
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'users']) ?>" target="_blank"
+                       class="btn btn-dark">
+                        Descargar Reporte
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card text-white bg-success shadow mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Reporte de puntos</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el estado de cuenta de las cargas que se han hecho por usuario
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'points']) ?>" target="_blank"
+                       class="btn btn-dark">
+                        Descargar Reporte
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card text-white bg-info shadow mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Reporte de productos</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el listado de productos actuales que se muestran en la plataforma.
+
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'products']) ?>" target="_blank"
+                       class="btn btn-dark">
+                        Descargar Reporte
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card text-white bg-success shadow mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Reporte Shipping List</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el reporte de canjes o shipping list de todos los usuarios.<br>
+                    <br>
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'sl']) ?>" target="_blank">
+                       <button class="btn btn-dark">Descargar Reporte</button>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card text-white bg-info shadow mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Reporte de embarques</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el estatus de cada una de las partidas en embarques
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'orderhistory']) ?>" target="_blank">
+                    <button class="btn btn-dark">Descargar Reporte</button>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card text-white bg-success shadow mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Reporte de noticias</h5>
+                <p class="card-text">
+                    Reporte que permite descargar el historial de visitas que las noticias han tenido por usuario
+                </p>
+                <p class="text-right">
+                    <a href="<?php echo $this->url('reports', ['action' => 'newshistory']) ?>" target="_blank">
+                    <button class="btn btn-dark">Descargar Reporte</button>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

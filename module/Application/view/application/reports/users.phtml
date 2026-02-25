@@ -1,0 +1,52 @@
+<?php
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Usuarios.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'ID',
+    'ID USUARIO',
+    'NOMBRE',
+    'APELLIDO PATERNO',
+    'APELLIDO MATERNO',
+    'PERFIL',
+    'GRUPO ABARROTERO',
+    'CEDIS/CIUDAD',
+    'ESTATUS',
+    'ULTIMO INGRESO WEB',
+    'FECHA QUE COMPLETÓ DATOS',
+    'FECHA DE ALTA',
+    'PUNTOS GANADOS',
+    'PUNTOS CANJEADOS',
+    'PUNTOS DISPONIBLES'
+];
+
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row): ?>
+    <?php $registerDate = date_create($row->registerDate); ?>
+    <?php
+    $lvd = '-';
+    if ($row->lastvisitDate != '0000-00-00 00:00:00'):
+        $lastvisitDate = date_create($row->lastvisitDate);
+        $lvd = date_format($lastvisitDate, 'd/m/Y');
+    endif;
+    $estatus = $row->estatus !== 'Activo'? 'Baja':'Activo';
+    ?>
+    <?php echo
+        $this->cleanString($row->id) . ',' .
+        $this->cleanString($row->username) . ',' .
+        $this->cleanString($row->first_name) . ',' .
+        $this->cleanString($row->last_name) . ',' .
+        $this->cleanString($row->mother_last_name) . ',' .
+        $this->cleanString($row->profile) . ',' .
+        $this->cleanString($row->grocery_group) . ',' .
+        $this->cleanString($row->cedis) . ',' .
+        $estatus . ',' .
+        $lvd . ',' .
+        $row->data_completed_at . ',' .
+        date_format($registerDate, 'd/m/Y') . ',' .
+        (int)$row->accumulated . ',' .
+        (int)abs($row->redeemed) . ',' .
+        (int)$row->available . ',' .
+        chr(13) ?>
+<?php endforeach ?>

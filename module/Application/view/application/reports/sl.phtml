@@ -1,0 +1,146 @@
+<?php
+
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Shipping_List.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'Codigo PMR',
+    'Codigo_CU',
+    'Marca',
+    'ID SAP',
+    'Nombre_artículo',
+    'Categoría',
+    'Tipo',
+    'Clasificación',
+    'Cantidad',
+    'Precio venta',
+    'Puntos',
+    'Nombre ganador',
+    'Teléfono contacto',
+    'Email contacto',
+    'Cedis',
+    'Nombre del cedis',
+    'País',
+    'Estado',
+    'Ciudad',
+    'Calle',
+    'Número exterior',
+    'Número interior',
+    'Colonia',
+    'Codigo postal',
+    'Referencias',
+    'Entre calles',
+    'Fecha estimada entrega',
+    'Horario estimado entrega',
+    'Fecha entrega',
+    'Color producto',
+    'Clave proveedor',
+    'Decorado',
+    'Folio de canje',
+    'Fecha de canje',
+    'Estatus_entrega',
+    'Extra_1',
+    'Extra_2',
+    'Extra_3',
+    'ID E-rewards'
+];
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row):
+    $payload = json_decode($row->payload, true);
+    $date = date_create($row->fecha_canje_adbox);
+?>
+    <?php if ($row->tipo === 'motivale'): ?>
+        <?php
+
+        echo
+        $row->codigo_pmr . ',' .
+        $row->codigo_cu . ',' .
+        $this->cleanString( $row->marca) . ',' .
+        $payload['CodigoSap'] . ',' .
+        $this->cleanString( $row->articulo) . ',' .
+        $this->cleanString( $row->categoria) . ',' .
+        $this->cleanString($row->tipo) . ',' .
+        $this->cleanString($payload['clasificacion_producto']) . ',' .
+        $row->cantidad . ',' .
+        $row->precio . ',' .
+        $row->puntos . ',' .
+        $this->cleanString( $row->nombre_usuario) . ',' .
+        $row->telefono . ',' .
+        $row->correo . ',' .
+        $row->cedis . ',' .
+        $row->nombre_cedis . ',' .
+        $this->cleanString($row->pais) . ',' .
+        $this->cleanString($row->estado) . ',' .
+        $this->cleanString($row->ciudad) . ',' .
+        $this->cleanString( $row->calle) . ',' .
+        $this->cleanString( $row->no_ext) . ',' .
+        $this->cleanString( $row->no_int) . ',' .
+        $this->cleanString( $row->colonia) . ',' .
+        $row->cp . ',' .
+        $this->cleanString($row->referencias) . ',' .
+        $this->cleanString( $row->calle1 . ' y ' . $row->calle2) . ',' .
+        $row->fecha_estimada_entrega . ',' .
+        $row->horario_estimada_entrega . ',' .
+        $row->fecha_entrega . ',' .
+        $row->color_producto . ',' .
+        $row->clave_proveedor . ',' .
+        $row->decorado . ',' .
+        $row->folio_canje . ',' . date_format($date, 'd/m/Y h:i:s') . ',' .
+        $row->sstatus_entrega . ',' .
+        $row->extra_1 . ',' .
+        $row->extra_2 . ',' .
+        $row->extra_3 . ',' .
+        '',
+        chr(13)
+        ?>
+    <?php else: ?>
+        <?php
+
+        $cid = '';
+        $pvi = $row->precio;
+        $estatus = 'No entregado';
+        if (strlen($row->rewards_response) > 0) {
+            $r = json_decode($row->rewards_response, true);
+            if (isset($r['detail'][0]['codigos'][0]['canjeId'])) {
+                $cid = $r['detail'][0]['codigos'][0]['canjeId'];
+                $pvi = $r['detail'][0]['codigos'][0]['precio'];
+                $estatus = 'Entregado';
+            }else{
+                $estatus = $row->sstatus_entrega === 'Entregado' ? 'Entregado' : 'No entregado';
+            }
+        }
+        echo $row->codigo_pmr . ',' .
+        $row->codigo_cu . ',' .
+        $this->cleanString( $row->marca) . ',' .
+        $payload['codigo_sap'] . ',' .
+        $this->cleanString( $row->articulo) . ',' .
+        $this->cleanString( $row->categoria) . ',' .
+        $this->cleanString($row->tipo) . ',' .
+        $this->cleanString($payload['clasificacion']) . ',' .
+        $row->cantidad . ',' .
+        $row->precio . ',' .
+        $row->puntos . ',' .
+        $this->cleanString($row->nombre_usuario) . ',' .
+        $row->telefono . ',' .
+        $row->correo . ',' .
+        $row->cedis . ',' .
+        $row->nombre_cedis .
+        ',,' . '' . ',' . '' . ',' . '' . ',' . '' . ',' . '' . ',' . '' . ',' . '' . ',' . '' . ',' . '' . ',' .
+        $row->fecha_estimada_entrega . ',' .
+        $row->horario_estimada_entrega . ',' .
+        date_format($date, 'd/m/Y h:i:s') . ',' .
+        $row->color_producto . ',' .
+        $row->clave_proveedor . ',' .
+        $row->decorado . ',' .
+        $row->folio_canje . ',' .
+        date_format($date, 'd/m/Y h:i:s') . ',' .
+        $estatus . ',' .
+        $row->extra_1 . ',' .
+        $row->extra_2 . ',' .
+        $row->extra_3 . ',' .
+        $cid,
+        chr(13)
+        ?>
+    <?php endif ?>
+<?php endforeach ?>

@@ -1,0 +1,65 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<?php echo 'Tipo,Nombre,Email,Fecha de compra,' . utf8_decode('Fecha de envío de mail') . ',' . utf8_decode('Código') . ',Procesado el, Abierto el, Dio clic el, Rechazado el, ' . utf8_decode('Fecha en que se marcó como Spam') . ', Fecha de Soft Bounce,Fecha de Hard Bounce, Commentarios, Veces que se ha abierto, Veces que se ha dado clic, Estatus' ?>
+<?php
+echo chr(13);
+foreach ($fileContent as $row):
+    if (stripos($row['code'], ',') > 0):
+        $codes = explode(',', $row['code']);
+    else:
+        $codes = [$row['code']];
+    endif;
+    $newCods = [];
+    foreach ($codes as $code):
+        $newCode = '';
+        for ($i = 0; $i < strlen($code); $i++):
+            if ($i < 3 || $i > (strlen($code) - 4)):
+                $newCode .= $code[$i];
+            else:
+                $newCode .= '*';
+            endif;
+        endfor;
+        array_push($newCods, $newCode);
+        $deliveryDate = date("d-m-Y", strtotime($row['delivery_date']));
+        $procesed_at = strlen($row['procesed_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['procesed_at']));
+        $rejected_at = strlen($row['rejected_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['rejected_at']));
+        $open_at = strlen($row['open_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['open_at']));
+        $clicked_at = strlen($row['clicked_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['clicked_at']));
+        $spamed_at = strlen($row['spamed_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['spamed_at']));
+        $soft_bouced_at = strlen($row['soft_bouced_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['soft_bouced_at']));
+        $hard_bouced_at = strlen($row['hard_bouced_at'] <= 0) ? 'N/A' : date("d-m-Y", strtotime($row['hard_bouced_at']));
+        $last_estatus = strlen($row['last_estatus'] <= 0) ? 'Enviado' : $row['last_estatus'];
+    endforeach;
+    echo
+        utf8_decode($row['reward_type']) . ',' .
+        utf8_decode($row['winner_name']) . ',' .
+        $row['winner_email'] . ',' .
+        $row['winner_buy_date'] . ',' .
+        $deliveryDate . ',' .
+        implode(' y ', $newCods) . ',' .
+        $procesed_at . ',' .
+        $open_at . ',' .
+        $clicked_at . ',' .
+        $rejected_at . ',' .
+        $spamed_at . ',' .
+        $soft_bouced_at . ',' .
+        $hard_bouced_at . ',' .
+        utf8_decode(preg_replace('/\s+/', ' ', trim(str_replace('"', '', str_replace(',', '', $row['comments']))))) . ',' .
+        $row['opens'] . ',' .
+        $row['clicks'] . ',' .
+        utf8_decode($last_estatus) .
+        chr(13);
+
+endforeach;
+header('Content-Description: File Transfer');
+header('Content-Type: application/octet-stream');
+header('Content-Disposition: attachment; filename=Reporte Movistar Promociones.csv');
+header('Content-Transfer-Encoding: binary');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Pragma: public');
+
+?>

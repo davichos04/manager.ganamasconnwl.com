@@ -1,0 +1,49 @@
+<?php
+$meses = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+];
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Acumulación_de_puntos.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'ID USUARIO',
+    'NOMBRE COMPLETO',
+    'PERFIL',
+    'GRUPO ABARROTERO',
+    'CEDIS',
+    'MES',
+    'CONCEPTO',
+    'PUNTOS OTORGADOS'
+];
+
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row): ?>
+    <?php
+    $month = isset($meses[$row->month - 1]) ? $meses[$row->month - 1] : '-'
+        ?>
+    <?php echo
+        $this->cleanString($row->username) . ',' .
+        $this->cleanString($row->name) . ',' .
+//        $this->cleanString($row->first_name) . ',' .
+//        $this->cleanString($row->last_name) . ',' .
+//        $this->cleanString($row->mother_last_name) . ',' .
+        $this->cleanString($row->profile) . ',' .
+        $this->cleanString($row->grocery_group) . ',' .
+        $this->cleanString($row->cedis) . ',' .
+        $this->cleanString($month) . ',' .
+        $this->cleanString($row->concept) . ',' .
+        $row->points . ',' . chr(13)
+        ?>
+<?php endforeach ?>

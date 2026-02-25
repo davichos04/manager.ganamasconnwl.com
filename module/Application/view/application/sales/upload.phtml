@@ -1,0 +1,152 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+
+<div class="content">
+    <?php if ($error): ?>
+        <div class="row">
+            <div class="offset-md-2 col-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Ocurrió un error al procesar el archivo</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>El archivo no se pudo leer, comprueba las siguientes razones:</p>
+                        <ol>
+                            <li>Que el archivo si tenga una extensión CSV</li>
+                            <li>Que se encuentre debidamente llenado</li>
+                            <li>Que sea un archivo CSV separado por comas</li>
+                        </ol>
+                        <p>Si tienes dudas, intena seguir los pasos citados en la página anterior</p>
+                        <p>Si el problema persiste, por favor contacta al proveedor de servicio</p>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a class="btn btn-primary" href="<?= $this->url('sales', ['action' => 'index']) ?>">
+                            Aceptar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php else: ?>
+        <?php if (count($fileContent) > 0): ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="">
+                        <h1 class="">Por favor confirma la información a procesar </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 overflow-auto">
+                    <table id="table-update" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>CELULAR</th>
+                                <th>ID ÚNICO DE CANJE</th>
+                                <th>NUEVO ESTATUS</th>
+                                <th>NÚMERO DE GUÍA</th>
+                                <th>PAQUETERÍA</th>
+                                <th>FECHA DE RECOLECCIÓN</th>
+                                <th>FECHA DE ENTREGA PAQUETERÍA</th>
+                                <th>PERSONA QUIEN RECIBE</th>
+                                <th>FECHA DE ACTUALIZACIÓN</th>
+                                <th>FECHA DE CANJE</th>
+                                <th>COMENTARIOS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="overflow-auto">
+                            <?php
+                            $erroneos = 0;
+                            foreach ($fileContent as $row):
+                                if (strlen($row['comments']) > 0):
+                                    $erroneos++;
+                                endif ?>
+                                <tr class="table-<?= strlen($row['comments']) > 0 ? 'danger' : 'success' ?>">
+                                    <td>
+                                        <?php echo $row['cellphone'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['adn'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['new_status'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['guide'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['carrier'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['picked_at'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['release_at'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['who_recibes'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['lastupdated_at'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['sales_date'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['comments'] ?>
+                                    </td>
+                                </tr>
+                            <?php
+                            endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class=" row">
+                <div class="col-12 text-center">
+                    <br><input type="hidden" id="fid" value="<?= $fileId ?>">
+                    <?php if (count($fileContent) > $erroneos): ?>
+                        <button class="btn btn-success" id="sls-confirm-button">Confirmar y procesar</button>&nbsp;
+                        <button class="btn btn-danger" id="sls-cancel-button">NO procesar</button>
+                    <?php else: ?>
+                        <h3 class="text-danger">
+                            El archivo no se puede cargar, revise por favor la estructura del archivo.
+                        </h3>
+                        <button class="btn btn-danger" id="sls-release-button">
+                            Aceptar
+                        </button>
+                    <?php endif ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="row">
+                <div class="offset-md-2 col-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h3>Ocurrió un error al leer el archivo</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>El archivo no contiene información, comprueba las siguientes razones:</p>
+                            <ol>
+                                <li>Que el archivo si tenga una extensión CSV</li>
+                                <li>Que se encuentre debidamente llenado</li>
+                                <li>Que sea un archivo CSV separado por comas</li>
+                            </ol>
+                            <p>Si tienes dudas, intena seguir los pasos citados en la página anterior</p>
+                            <p>Si el problema persiste, por favor contacta al proveedor de servicio</p>
+                        </div>
+                        <div class="card-footer text-right">
+                            <a class="btn btn-primary" href="<?= $this->url('sales', ['action' => 'index']) ?>">
+                                Aceptar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+    <?php
+    endif ?>
+</div>

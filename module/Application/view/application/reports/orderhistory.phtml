@@ -1,0 +1,35 @@
+<?php
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Historial_de_pedidos.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'ID CANJE',
+    'ID USUARIO',
+    'NOMBRE (S)',
+    'APELLIDO PATERNO',
+    'APELLIDO MATERNO',
+    'NOMBRE COMPLETO',
+    'PERFIL',
+    'CATEGORÍA',
+    'NOMBRE CORTO',
+    'SKU',
+    'CODIGO PMR',
+    'MARCA',
+    'PUNTOS',
+    'CANTIDAD',
+    'TELÉFONO',
+    'FECHA DE CANJE',
+    'ESTATUS DE ENTREGA',
+    'FECHA DE RECEPCIÓN'
+];
+
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row): ?>
+<?php $date = date_create($row->fecha_canje_adbox); ?>
+<?php if ($row->tipo === 'motivale'): ?>
+<?php echo $row->folio_canje . ',' . $row->usuario . ',' . mb_convert_case(str_replace(',', '',$row->nombres), MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->ap_pat, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->ap_mat, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->nombre_usuario, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->perfil, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->categoria), MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->articulo), MB_CASE_TITLE, 'UTF-8') . ',' . $row->codigo_cu . ',' . mb_convert_case($row->pmr, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->marca), MB_CASE_TITLE, 'UTF-8') . ',' . $row->puntos . ',' . $row->cantidad . ',' . $row->telefono . ',' . date_format($date, 'd/m/Y h:i:s') . ',' . mb_convert_case($row->sstatus_entrega, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->fecha_entrega, MB_CASE_TITLE, 'UTF-8')  . chr(13) ?>
+<?php else: ?>
+<?php echo $row->folio_canje . ',' . $row->usuario . ',' . mb_convert_case(str_replace(',', '',$row->nombres), MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->ap_pat, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->ap_mat, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->nombre_usuario, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case($row->perfil, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->categoria), MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->articulo), MB_CASE_TITLE, 'UTF-8') . ',' . $row->codigo_cu . ',' . mb_convert_case($row->pmr, MB_CASE_TITLE, 'UTF-8') . ',' . mb_convert_case(str_replace(',', '',$row->marca), MB_CASE_TITLE, 'UTF-8') . ',' . $row->puntos . ',' . $row->cantidad . ',' . $row->telefono . ',' . date_format($date, 'd/m/Y h:i:s') . ',' . 'Entregado' . ',' . date_format($date, 'd/m/Y h:i:s') . chr(13) ?>
+<?php endif ?>
+<?php endforeach ?>

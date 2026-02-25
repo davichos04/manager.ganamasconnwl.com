@@ -1,0 +1,9 @@
+V5 Fixed
+- Fixed AJAX save (JSON) + better error output.
+- Forms now POST to correct action URLs (not builder).
+- Removed duplicate close icon (keeps SweetAlert close).
+- Question edit shows current image; does not overwrite unless new selected.
+- Capacitacion supports media_file + thumbnail_file uploads; preserves existing if no new selected.
+- published checkbox now saves correctly (0/1) with hidden element.
+- expires_at uses DateTimeLocal input (calendar).
+- Removed data['submit']/csrf from all saves.

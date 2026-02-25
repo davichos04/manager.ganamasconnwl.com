@@ -1,0 +1,65 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Listado de usuarios</h1>
+
+</div>
+<hr>
+<hr>
+<div class="row">
+    <div class="col-md-12 card card-body">
+        <table id="table-content" class="table well">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Celular</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Perfil</th>
+                    <th>Estatus</th>
+                    <th>Último acceso</th>
+                    <th>Fecha en que completó datos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="overflow-auto">
+                <?php foreach ($data as $row): ?>
+                    <tr>
+                        <td>
+                            <?php echo $row['id'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['username'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['name'] ?>
+                        </td>
+                        <td>
+                            <?php echo stripos($row['email'], 'demo') > 0 ? '-' : $row['email'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['profile'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['estatus'] == 'Activo' ? 'Activo' : 'Baja' ?>
+                        </td>
+                        <td>
+                            <?php echo $row['lastvisitDate'] === '2023-01-01 00:00:00' ? '-' : $row['lastvisitDate'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['data_completed_at'] === 'NULL' ? '-' : $row['data_completed_at'] ?>
+                        </td>
+                        <td>
+<!--                            <a href="<?php // echo $this->url('application', ['action' => 'detail', 'id' => $row['id']]) ?>">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </a>-->
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>

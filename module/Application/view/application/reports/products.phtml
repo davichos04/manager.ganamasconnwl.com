@@ -1,0 +1,54 @@
+<?php
+
+$meses = [
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+];
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Reporte_de_productos.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'SKU',
+    'NOMBRE',
+    'DESCRIPCIÓN',
+    'CATEGORÍA',
+    'MARCA',
+    'TIPO DE CATALOGO',
+    'STOCK',
+    'PRECIO EN PUNTOS',
+    'ESTATUS'
+];
+
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row):
+    $estatus = $row->enabled == 1 ? "Visible" : "Oculto";
+    $description = str_replace(PHP_EOL, '',
+            str_replace("\r", '',
+                    str_replace("\n", '',
+                            str_replace(",", '', $row->description)
+                    )
+            )
+            
+    );
+    echo $this->cleanString($row->sku) . ',' .
+    $this->cleanString($row->title) . ',' .
+    $this->cleanString($description) . ',' .
+    $this->cleanString($row->category) . ',' .
+    $this->cleanString($row->brand) . ',' .
+    $this->cleanString($row->type) . ',' .
+    $this->cleanString($row->stock) . ',' .
+    $this->cleanString($row->price) . ',' .
+    $this->cleanString($estatus) . chr(13)
+    ?>
+<?php endforeach ?>

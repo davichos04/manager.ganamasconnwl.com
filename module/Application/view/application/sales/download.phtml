@@ -1,0 +1,10 @@
+<?php
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=template_embarques.csv');
+echo "\xEF\xBB\xBF";
+echo 'CELULAR,ID ÚNICO DE CANJE,NUEVO ESTATUS,NÚMERO DE GUÍA,PAQUETERÍA,FECHA DE RECOLECCIÓN,FECHA DE ENTREGA PAQUETERÍA,PERSONA QUIEN RECIBE,FECHA DE ACTUALIZACIÓN,FECHA DE CANJE' . chr(13);
+foreach ($this->data as $row): ?>
+    <?php $date = date_create($row->created_at); ?>
+    <?php echo $row->username . ',' . $row->adn . ',,,,,,,,' . date_format($date, 'd/m-Y') . chr(13) ?>
+<?php endforeach ?>

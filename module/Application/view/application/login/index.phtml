@@ -1,0 +1,62 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$form = $this->form;
+$form->setAttribute('action', $this->url('login'));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 shadow-sm">
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="card">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="text-center">
+                        Inicio de sesión
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <?= $this->form()->openTag($form) ?>
+                        <div class="mb-3">
+                            <div class="text-danger">
+                                <?= $error ?>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <?= $this->formLabel($form->get('email')) ?>
+                                <div class="form-group">
+                                    <?= $this->formText($form->get('email')) ?>
+                                </div>
+                                <div class="text-danger">
+                                    <?= $this->formElementErrors($form->get('email')) ?>
+                                </div>
+                        </div>
+                        <div class="mb-3">
+                            <?= $this->formLabel($form->get('password')) ?>
+                                <div class="form-group">
+                                    <?= $this->formPassword($form->get('password')) ?>
+                                </div>
+                                <div class="text-danger">
+                                    <?= $this->formElementErrors($form->get('password')) ?>
+                                </div>
+                        </div>
+                        <div class="mb-3 float-right">
+                            <?= $this->formHidden($form->get('csrf')) ?>
+                                <div class="text-danger">
+                                    <?= $this->formElementErrors($form->get('csrf')) ?>
+                                </div>
+                                <?= $this->formSubmit($form->get('account_login')) ?>
+                        </div>
+                        <?= $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

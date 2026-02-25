@@ -1,0 +1,202 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<?= $this->doctype() ?>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Gana más con Newell')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?=
+        $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+    <!-- Le styles -->
+    <?=
+        $this->headLink([
+            'rel' => 'shortcut icon',
+            'type' => 'image/vnd.microsoft.icon',
+            'href' => $this->basePath() . '/img/favicon.ico'
+        ])
+            ->prependStylesheet($this->basePath('css/style.css?t=' . time()))
+            ->prependStylesheet($this->basePath('css/sb-admin-2.css?t=' . time()))
+            ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+            ->prependStylesheet('https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap4.min.css')
+            ->prependStylesheet('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css')
+            ->prependStylesheet('https://cdn.datatables.net/fixedheader/3.3.1/css/fixedHeader.bootstrap4.min.css')
+            ->prependStylesheet('https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css')
+            ->prependStylesheet('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css')
+        ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript() ?>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= $this->url('home') ?>">
+
+
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user"></i>
+                </div>
+
+                <div class="sidebar-brand-text mx-3">Gana más con Newell</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active" id="dashboard">
+                <a class="nav-link" href="<?= $this->url('home') ?>">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Acciones
+            </div>
+
+            <!-- Nav Item - Usuarios -->
+            <li class="nav-item" id="participants">
+                <a class="nav-link" href="<?= $this->url('participants') ?>">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Usuarios</span></a>
+            </li>
+            <!-- Nav Item - Puntos -->
+            <li class="nav-item" id="points">
+                <a class="nav-link" href="<?= $this->url('points') ?>">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Puntos</span></a>
+            </li>
+            <!-- Nav Item - Puntos -->
+            <li class="nav-item" id="productos">
+                <a class="nav-link" href="<?= $this->url('products') ?>">
+                    <i class="fas fa-fw fa-gift"></i>
+                    <span>Productos</span></a>
+            </li>
+            <!-- Nav Item - Puntos -->
+            <li class="nav-item" id="sales">
+                <a class="nav-link" href="<?= $this->url('sales') ?>">
+                    <i class="fas fa-fw fa-dollar-sign"></i>
+                    <span>Canjes</span></a>
+            </li>
+            <!-- Nav Item - Puntos -->
+            <li class="nav-item" id="reports">
+                <a class="nav-link" href="<?= $this->url('reports') ?>">
+                    <i class="fas fa-fw fa-download"></i>
+                    <span>Reportes</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <!-- Nav Item - Puntos -->
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $this->url('logout') ?>">
+                    <i class="fas fa-fw fa-download"></i>
+                    <span>Cerrar sesión</span></a>
+            </li>
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="navbar-brand" href="<?= $this->url('home') ?>" aria-haspopup="true"
+                                aria-expanded="false">
+                                <img class="img-logo" src="<?= $this->basePath('img/logo-h.png') ?>" alt="">
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+
+                <hr>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <?= $this->content ?>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright DIN Soluciones &copy; 2024</span>
+                    </div>
+                </div> 
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <?=
+        $this->inlineScript()
+            ->prependFile($this->basePath('js/Script.js?t=' . time()))
+            ->prependFile($this->basePath('js/sb-admin-2.js?t=' . time()))
+            ->prependFile($this->basePath('js/sweetalert2_11.js?t=' . time()))
+            ->prependFile($this->basePath('js/chart.js/Chart.min.js?t=' . time()))
+            ->prependFile($this->basePath('js/chart.umd.min.js?t=' . time()))
+//            ->prependFile('//cdn.jsdelivr.net/npm/sweetalert2@11')
+            ->prependFile('https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap4.min.js')
+            ->prependFile('https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js')
+            ->prependFile('https://cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js')
+            ->prependFile('https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js')
+            ->prependFile('https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js')
+//            ->prependFile('https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js?t=' . time())
+            ->prependFile($this->basePath('js/bootstrap.bundle.js'))
+            ->prependFile($this->basePath('js/jquery.easing.js'))
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery-3.5.1.min.js'))
+        ?>
+
+</body>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,36 @@
+<?php
+if ($this->isAjax):
+  echo json_encode($this->data);
+  die();
+endif;
+?>
+<div class="container-fluid py-3">
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span>Nueva respuesta</span>
+      <a class="btn btn-sm btn-outline-secondary" href="javascript:history.back()">Volver</a>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-light border">
+        <b>Pregunta:</b> <?= $this->escapeHtml($question['question_text'] ?? '') ?>
+      </div>
+
+      <?php $form->prepare(); ?>
+      <?= $this->form()->openTag($form) ?>
+      <?= $this->formHidden($form->get('question_id')) ?>
+
+      <div class="form-group">
+        <label><?= $form->get('answer_text')->getLabel() ?></label>
+        <?= $this->formElement($form->get('answer_text')) ?>
+      </div>
+
+      <div class="custom-control custom-checkbox mb-3">
+        <?= $this->formElement($form->get('is_correct')->setAttribute('id','a_correct')) ?>
+        <label class="custom-control-label" for="a_correct">Es correcta</label>
+      </div>
+
+      <?= $this->formSubmit($form->get('submit')) ?>
+      <?= $this->form()->closeTag() ?>
+    </div>
+  </div>
+</div>

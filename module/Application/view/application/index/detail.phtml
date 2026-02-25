@@ -1,0 +1,116 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?> 
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="">Información del archivo </h1>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>
+                                Nombre del archivo
+                            </strong>
+                        </td>
+                        <td>
+                            <?= $file['filename'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>
+                                Fecha de carga
+                            </strong>
+                        </td>
+                        <td>
+                            <?= $file['created_at'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>
+                                Estatus
+                            </strong>
+                        </td>
+                        <td>
+                            <?= $file['estatus'] ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="offset-4 col-5">
+            <br>
+            <?php if ($file['estatus'] === 'Pendiente de autorizar'): ?>
+                <input type="hidden" value="<?= $file['id'] ?>" id="fid" />
+                <button class="btn btn-success" id="confirm-button">Autorizar</button>
+                <button class="btn btn-danger" id="cancel-button">No autorizar</button>
+            <?php endif ?>
+            <a href="/" class="btn btn-primary">Regresar</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <table id="table-content" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+
+                    <th>
+                        No.
+                    </th>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Fecha de compra</th>
+                    <th>Número de guía</th>
+                    <th>Paquetería</th>
+                    <th>Fecha de envío de mail</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody class="overflow-auto">
+                <?php $i = 1;
+                foreach ($fileContent as $row):
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $i;
+                            $i++
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $row['reward_type'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['winner_name'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['winner_email'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['winner_buy_date'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['guide_number'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['carrier'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['delivery_date'] ?>
+                        </td>
+                        <td>
+                    <?php echo $row['estatus'] ?>
+                        </td>
+                    </tr>
+<?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>

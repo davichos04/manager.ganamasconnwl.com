@@ -1,0 +1,26 @@
+<?php
+/** @var array $alist */
+/** @var int $qid */
+?>
+<?php if (empty($alist)): ?>
+  <div class="text-muted">Sin respuestas todavía.</div>
+<?php else: ?>
+  <ul class="list-group">
+    <?php foreach ($alist as $a): ?>
+      <li class="list-group-item d-flex justify-content-between align-items-center" data-answer-id="<?= (int)$a['id'] ?>">
+        <div>
+          <?= $this->escapeHtml($a['answer_text'] ?? '') ?>
+          <?php if ((int)($a['is_correct'] ?? 0) === 1): ?>
+            <span class="badge badge-success ml-2">Correcta</span>
+          <?php endif; ?>
+        </div>
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-outline-primary js-edit-answer"
+            data-url="<?= $this->url('capacitacion-admin/answer', ['action'=>'edit','id'=>(int)$a['id']]) ?>?ajax=1">Editar</button>
+          <button class="btn btn-outline-danger js-del-answer"
+            data-url="<?= $this->url('capacitacion-admin/answer', ['action'=>'delete','id'=>(int)$a['id']]) ?>">Borrar</button>
+        </div>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+<?php endif; ?>

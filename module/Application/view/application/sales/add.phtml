@@ -1,0 +1,49 @@
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-12">
+            <p>
+                <strong>
+                    Aquí podrás seleccionar el archivo y procesarlo para actualizar el estatus de los pedidos.
+                </strong>
+            </p>
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Solo sigue estos sencillos pasos:
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+                        <div class="circle">1</div>Descarga la plantilla dando clic
+                        <a target="_blank" href="<?php echo $this->url('sales', ['action' => 'download']) ?>"
+                            class="btn btn-primary">Aquí</a>
+                        <!-- <a href="/csv/template_embarques.csv" class="btn btn-primary">Aquí</a> -->
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <div class="circle">2</div>Llena la plantilla con la información a procesar
+                    </div>
+                    <div class="col-12">
+                        <br>
+                        <div class="circle">3</div>Cargar la plantilla
+                        <?php
+                        $form->prepare(); // The correct enctype is set here
+                        $form->setAttribute('action', $this->url('sales', ['action' => 'upload']));
+                        $form->setAttribute('class', 'form-vertical');
+                        $fileElement = $form->get('csv-file');
+                        echo $this->form()->openTag($form);
+                        ?>
+                        <div class="form-group">
+                            <?php echo $this->formLabel($fileElement) ?>
+                            <?php echo $this->formFile($fileElement) ?>
+                            <?php echo $this->formElementErrors($fileElement) ?>
+                        </div>
+                        <div class="text-center">
+                            <div class="circle">4</div>
+                            <button class="btn btn-primary">Procesar archivo</button>
+                        </div>
+                        <?php echo $this->form()->closeTag() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

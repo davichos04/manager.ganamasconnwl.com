@@ -1,0 +1,44 @@
+<?php
+$now = date('_d-m-Y_h-i-s');
+header('Content-Encoding: UTF-8');
+header('Content-type: text/csv; charset=UTF-8');
+header('Content-Disposition: attachment; filename=Reporte_noticias' . $now . '.csv');
+echo "\xEF\xBB\xBF";
+$headers = [
+    'ID USUARIO',
+    'NOMBRE',
+    'APELLIDO PATERNO',
+    'APELLIFO MATERNO',
+    'PERFIL',
+    'GRUPO ABARROTERO',
+    'CEDIS/CIUDAD',
+    'NOTICIA',
+    'FECHA NOTICIA',
+    'FECHA DE PRIMER VISITA',
+    'FECHA DE ÚLTIMA VISITA',
+    'TOTAL DE VISTAS',
+];
+
+echo implode(',', $headers) . chr(13);
+foreach ($this->data as $row):
+    $visitDate1 = date_create($row->primera_visita);
+    $vd1 = date_format($visitDate1, 'd/m/Y');
+    $visitDate2 = date_create($row->ultima_visita);
+    $vd2 = date_format($visitDate2, 'd/m/Y');
+    $fechaNoticia = date_create($row->fecha_noticia);
+    $fn = date_format($fechaNoticia, 'd/m/Y');
+    echo
+    $this->cleanString($row->username) . ',' .
+        $this->cleanString($row->first_name) . ',' .
+        $this->cleanString($row->last_name) . ',' .
+        $this->cleanString($row->mother_last_name) . ',' .
+        $this->cleanString($row->profile) . ',' .
+        $this->cleanString($row->grocery_group) . ',' .
+        $this->cleanString($row->cedis) . ',' .
+        $this->cleanString($row->articulo_titulo) . ',' .
+        $fn . ',' .
+        $vd1 . ',' .
+        $vd2 . ',' .
+        $this->cleanString($row->total_visitas) .
+        chr(13);
+endforeach;

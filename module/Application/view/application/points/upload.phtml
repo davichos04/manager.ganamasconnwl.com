@@ -1,0 +1,140 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+
+<div class="content">
+    <?php if ($error): ?>
+        <div class="row">
+            <div class="offset-md-2 col-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Ocurrió un error al procesar el archivo</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>El archivo no se pudo leer, comprueba las siguientes razones:</p>
+                        <ol>
+                            <li>Que el archivo si tenga una extensión CSV</li>
+                            <li>Que se encuentre debidamente llenado</li>
+                            <li>Que sea un archivo CSV separado por comas</li>
+                        </ol>
+                        <p>Si tienes dudas, intena seguir los pasos citados en la página anterior</p>
+                        <p>Si el problema persiste, por favor contacta al proveedor de servicio</p>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a class="btn btn-primary" href="<?= $this->url('points', ['action' => 'index']) ?>">
+                            Aceptar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php else: ?>
+        <?php if (count($fileContent) > 1): ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="">
+                        <h1 class="">Por favor confirma la información a procesar </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table id="table-content" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Celular</th>
+                                <th>Perfil</th>
+                                <th>Mes</th>
+                                <th>Concepto</th>
+                                <th>Puntos actuales</th>
+                                <th>Puntos a cargar</th>
+                                <th>Nuevo Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody class="overflow-auto">
+                            <?php
+                            $erroneos = 0;
+                            foreach ($fileContent as $row):
+                                if ($row['name'] === 'Usuario no participante'):
+                                    $erroneos++;
+                                endif ?>
+                                <tr class="table-<?= $row['name'] === 'Usuario no participante' ? 'danger' : 'success' ?>">
+                                    <td>
+                                        <?php echo $row['name'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['cellphone'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['profile'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['month'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['concept'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['old_account_balance'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['new_points'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['new_account_balance'] ?>
+                                    </td>
+                                </tr>
+                            <?php
+                            endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <br><input type="hidden" id="fid" value="<?= $fileId ?>">
+                    <?php if (count($fileContent) > $erroneos): ?>
+                        <button class="btn btn-danger" id="pts-cancel-button">NO procesar</button> &nbsp;
+                        <button class="btn btn-success" id="pts-confirm-button">Confirmar y procesar</button>
+                    <?php else: ?>
+                        <h3 class="text-danger">
+                            El archivo no se puede cargar, revise por favor la estructura del archivo.
+                        </h3>
+                        <button class="btn btn-danger" id="pts-release-button">
+                            Aceptar
+                        </button>
+                    <?php endif ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="row">
+                <div class="offset-md-2 col-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h3>Ocurrió un error al leer el archivo</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>El archivo no contiene información, comprueba las siguientes razones:</p>
+                            <ol>
+                                <li>Que el archivo si tenga una extensión CSV</li>
+                                <li>Que se encuentre debidamente llenado</li>
+                                <li>Que sea un archivo CSV separado por comas</li>
+                            </ol>
+                            <p>Si tienes dudas, intena seguir los pasos citados en la página anterior</p>
+                            <p>Si el problema persiste, por favor contacta al proveedor de servicio</p>
+                        </div>
+                        <div class="card-footer text-right">
+                            <a class="btn btn-primary" href="<?= $this->url('points', ['action' => 'index']) ?>">
+                                Aceptar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+    <?php
+    endif ?>
+</div>

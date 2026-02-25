@@ -1,0 +1,66 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+?>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0">Productos cargados en la plataforma</h1>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr>
+        <hr>
+    </div>
+    <div class="col-12 card card-body">
+        <table id="table-content" class="table table-bordered text-center">
+            <thead class="">
+                <tr>
+                    <th>Sku</th>
+                    <th>Nombre</th>
+                    <!--<th>Descripción</th>-->
+                    <th>Categoría</th>
+                    <th>Marca</th>
+                    <th>Tipo de catálogo</th>
+                    <th>Stock</th>
+                    <th>Precio en puntos</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody class="overflow-auto">
+                <?php foreach ($data as $row): ?>
+                <?php  $estatus = $row->enabled == '1' ? "Visible" : "Oculto" ?>
+                
+                    <tr>
+                        <td>
+                            <?php echo $row->sku ?>
+                        </td>
+                        <td>
+                            <?php echo $row->title ?>
+                        </td>
+                        <td>
+                            <?php echo $row->category ?>
+                        </td>
+                        <td>
+                            <?php echo $row->brand ?>
+                        </td>
+                        <td>
+                            <?php echo $row->type ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($row->stock, 0) ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($row->price, 0) ?>
+                        </td>
+                        <td>
+                            <?php echo $estatus ?>
+                        </td>
+
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+</div>

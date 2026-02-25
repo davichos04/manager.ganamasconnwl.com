@@ -1,0 +1,169 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$spanishMonths = array(
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+);
+?>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Detalle del pedido
+        <?php echo $detail->adn ?>
+    </h1>
+    <a href="<?= $this->url('sales', ['action' => 'index']) ?>"
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-caret-square-left text-white-50"></i>
+        Regresar
+    </a>
+</div>
+<hr>
+<hr>
+
+<?php
+$proceso = $transito = $entregado = "active";
+$hasException = false;
+$porcentaje = 0;
+switch (((int) $detail->tracking_status)):
+    case 1:
+        $porcentaje = 33;
+        $proceso = "bg-primary";
+        break;
+    case 2:
+        $porcentaje = 66;
+        $proceso = $transito = "bg-primary";
+        break;
+    case 3:
+        $porcentaje = 100;
+        $proceso = $transito = $entregado = "bg-primary";
+        break;
+    default:
+        $proceso = $transito = "bg-primary";
+endswitch;
+
+$step = ((int) $detail->tracking_status) > 3 ? 2 : $detail->tracking_status;
+if ($detail->type === 'ereward'):
+    $proceso = $transito = $entregado = "bg-primary";
+    $porcentaje = 100;
+endif;
+?>
+<div class="row bg-dark text-white info-general">
+    <div class="col-3">
+        <strong>PEDIDO REALIZADO POR:</strong><br>
+        <?php echo $detail->name ?><br>
+        <?php echo $detail->cellphone ?><br>
+        <?php echo $detail->profile ?>
+    </div>
+    <div class="col-5">
+        <strong>ENVIAR A</strong><br>
+        <?php echo $detail->name ?><br>
+        <?php
+        echo $detail->street . ' ' . '#' . $detail->ext_number . (strlen($detail->int_number) > 0 ? '_' . $detail->int_number : '') . ' ' . $detail->zip_code . ', ' . $detail->location . ', ' . $detail->city . ', ' . ($detail->state ?? "") . '.';
+        ?>
+    </div>
+    <div class="col-4">
+        <strong>GUÍA</strong>
+        <?php echo $detail->guide_snumber ?><br>
+        <strong>PAQUETERÍA</strong>
+        <?php echo $detail->carrier ?><br>
+        <strong>RECIBE</strong>
+        <?php echo $detail->person_who_recibe ?><br>
+        <strong>FECHA DE ENTREGA</strong>
+        <?php echo $detail->real_date_delivery ?>
+    </div>
+    <div class="col-12">
+        <br>
+    </div>
+    <div class="col-4">
+        <strong>NO. DE PEDIDO</strong><br>
+
+        <?php echo $detail->order_id ?>
+    </div>
+    <div class="col-4">
+        <strong>REALIZADO EL</strong><br>
+        <?php echo $detail->created_at ?>
+    </div>
+    <div class="col-4">
+        <strong>TOTAL</strong><br>
+        <?php echo number_format($detail->price, 0) ?> PUNTOS
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        <img class="img-product"
+            src="https://dev.verdevallerecompensas.com/<?php echo '/images/productos/' . $detail->file_name ?>"
+            onerror="this.onerror=null; this.src='<?php echo ('/images/productos/imagen-no-disponible.png'); ?>'">
+    </div>
+    <div class="col-4">
+        <br>
+        <strong>
+            <?php echo $detail->title ?>
+        </strong><br>
+        <strong>SKU</strong>:
+        <?php echo $detail->sku ?><br>
+        <strong>CANTIDAD</strong>:
+        <?php echo $detail->quantity ?>
+        <br>
+        <strong>TIPO</strong>:
+        <?php echo ucfirst($detail->type) ?>
+        <br>
+        <strong>CATEGORÍA</strong>:
+        <?php echo $detail->category ?><br>
+        <?php echo $detail->description ?><br>
+    </div>
+    <div class="col-4">
+        <div class="order-status">
+            <strong>
+                ESTATUS DE ENVÍO
+            </strong>
+            <ul class="timeline percent<?php echo $porcentaje ?>">
+                <li class="timeline-inverted">
+                    <div class="timeline-badge <?php echo $proceso ?>">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading <?php echo $proceso === 'primary' ? 'text-green' : '' ?>">
+                            <strong>
+                                Procesando
+                            </strong>
+                        </div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-badge <?php echo $transito ?>">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <strong>
+                                Enviado
+                            </strong>
+                        </div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-badge <?php echo $entregado ?>">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <strong>
+                                Entregado
+                            </strong>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
